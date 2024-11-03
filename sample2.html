@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--HEAD-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+    
+    <title>Smart Home Control Panel</title>
+
+<!-----------------------------------INTERNAL CSS----------------------------------->
+    <style>
+    @font-face { font-family: Century Gothic; src: url('centurygothic.TTF'); } 
+
+        body {
+            background-color: #fcfbf2;
+            color: #3b3b3b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        header {
+            background-color: #bdddf8;
+            color: #fff;
+            width: 100%;
+            padding: 1em;
+            text-align: center;
+            box-shadow: 0px 0.5px 6px rgba(0, 0, 0, 0.4); 
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px; 
+            left: 20px; 
+            height: 40px; 
+        }
+
+        .reset-button {
+            background-color: #a04040;
+            color: white;
+            border: none;
+            width: 40px; 
+            height: 40px; 
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px; 
+            position: absolute; 
+            right: 20px; 
+            top: 20px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition-duration: 0.4s;
+            box-shadow: 2px 2px 2.2px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-button {
+            background-color: #bdddf8;
+            border: none;
+            color: #2b2b2b;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Century Gothic';
+            border-radius: 5px;
+            transition-duration: 0.4s;
+        }
+
+        
+        .on-button {
+            background-color: #46be7c;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Arial Black';
+            border-radius: 5px;
+            transition-duration: 0.4s;
+            box-shadow: 2px 2px 2.2px rgba(0, 0, 0, 0.4);
+        }
+
+        .off-button {
+            background-color: #a04040;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Arial Black';
+            border-radius: 5px;
+            transition-duration: 0.4s;
+            box-shadow: 2px 2px 2.2px rgba(0, 0, 0, 0.4);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: row; 
+            gap: 10px; 
+        }
+
+
+        .nav-button:hover {
+            background-color: #5a85a7;
+            color: white;
+        }
+        
+        .reset-button:hover {
+            background-color:   #8f1818;
+            color: white;
+        }
+
+        .on-button:hover {
+            background-color: #237a4a;
+            color: white;
+        }
+
+        .off-button:hover {
+            background-color: #8f1818;
+            color: white;
+        }
+
+      
+        .light-container {
+            display: flex;
+            justify-content: center; 
+            margin: 1em 0; 
+        }
+
+        #lightSimulator, #fanSimulator, #thermostatSimulator { /*other regular texts*/
+            display: none;
+            text-align: center;
+            margin-top: 3em;
+            font-family: 'Century Gothic';
+            font-size: 16px;
+        }
+
+        #welcome {
+            display: block;
+            justify-content: center;   
+            align-items: center;
+            text-align: center;
+            font-family: 'Century Gothic';
+        }
+
+
+        /*
+        --------------FAN ROTATE CSS--------------
+        */
+
+        @keyframes rotateFan {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+
+        .fan-container {
+            position: relative;
+            width: 250px; 
+            height: 330px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto; 
+            padding-bottom: 15px;
+        }
+
+        #fanBlade {
+            position: absolute; 
+            width: 85%; 
+            height: auto; 
+            z-index: 1; 
+        }
+
+        #fanCase {
+            position: absolute; 
+            width: 100%; 
+            height: auto; 
+            z-index: 2; 
+        }
+
+
+        .speed-1 {
+            animation: rotateFan 0.8s linear infinite; 
+        }
+
+        .speed-2 {
+            animation: rotateFan  0.5s linear infinite; 
+        }
+
+        .speed-3 {
+            animation: rotateFan  0.020s linear infinite; 
+        }
+
+        .stopped {
+            animation: none;
+        }
+
+        /*
+        --------------THERMOSTAT CSS--------------
+        */
+
+        .thermostat-container {
+            position: relative; 
+            text-align: center; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .thermostat-image {
+            width: 150px; 
+            height: auto; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .thermostat-text {
+            position: absolute;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            color: #2b2b2b; 
+            padding: 10px; 
+            border-radius: 5px; 
+            text-align: center; 
+            font-family: 'Press Start 2P', bold;
+        }
+
+        .thermostat-button {
+            background-color: #64baf3;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Arial Black';
+            border-radius: 5px;
+            transition-duration: 0.4s;
+            box-shadow: 2px 2px 2.2px rgba(0, 0, 0, 0.4);
+        }
+
+        .thermostat-button:hover {
+            background-color: #3977a0;
+            color: white;
+        }
+
+        .status-text {
+            margin-top: 50px; /* Adjust the value as needed */
+        }
+
+
+    </style>
+</head>
+
+
+
+
+
+
+
+<!-----------------------------------BODY----------------------------------->
+<body>
+    <header>
+        <img src="logo.png" alt="Logo" class="logo">
+        <button class="nav-button" onclick="showSection('lightSimulator')">Light Simulator</button>
+        <button class="nav-button" onclick="showSection('fanSimulator')">Fan Simulator</button>
+        <button class="nav-button" onclick="showSection('thermostatSimulator')">Thermostat Simulator</button>
+   
+        <button class="reset-button"  title="Reset" onclick="resetAll()"><img src="C:\Users\Dining\Desktop\website test 2\resettt.png" alt="Reset" style="width: 25px; height: 25px;"></button>
+    </header>
+
+    <div id="welcome">
+        <br><br><br><br><br><br><br><br><br><br>
+        <h1>Welcome to Home Appliance Simulator</h1>
+        <p>Click a button above to start controlling your smart devices.</p>
+    </div>
+
+    
+    <div id="lightSimulator">
+        <h1>Light Control</h1>
+
+        <div class="light-container">
+            <img id="lightBulb" src="bulb_off.png" alt="Light Bulb" width="300">
+        </div>
+
+        <br><br>
+        <div class="button-container">
+        <button  class="on-button" onclick="controlLight('on')">On</button>
+        <button  class="off-button" onclick="controlLight('off')">Off</button>
+        </div>
+        <p id="lightStatus" class="status-text"></p>
+    </div>
+
+    
+    <div id="fanSimulator">
+        <h1>Fan Control</h1>
+
+        <div class="fan-container">
+            <img id="fanBlade" src="fan_blade.png" alt="Fan Blade">
+            <img id="fanCase" src="fan_case.png" alt="Fan Case">
+        </div>
+
+      
+        <div class="button-container">
+        <button class="on-button" onclick="controlFanSpeed(1)"> 1 </button>
+        <button class="on-button" onclick="controlFanSpeed(2)"> 2 </button>
+        <button class="on-button" onclick="controlFanSpeed(3)"> 3 </button>
+        <button class="off-button" onclick="controlFanSpeed(0)">Off</button>
+        </div>
+        <p id="fanStatus" class="status-text"></p>
+    </div>
+    
+
+    <div id="thermostatSimulator">
+        <h1>Thermostat Control</h1>
+
+    <div class="thermostat-container">
+            <img id="thermostat" src="thermostat.png" alt="Thermostat" width="360">
+            <div class="thermostat-text" id="thermostatStatus">Thermostat is OFF</div>
+        </div>
+
+        <div class="button-container">
+        <button class="on-button"onclick="changeTemperature(-1)">▲</button>
+        <button class="on-button"onclick="changeTemperature(1)">▼</button>
+        <button class="thermostat-button"onclick="toggleThermostat()">On/Off</button>
+        </div>
+    </div>
+    
+    
+
+
+
+
+
+ <!-----------------------------------JAVASCRIPT--------------------------------->   
+ 
+    <script>
+       function showSection(sectionId) {
+
+            document.getElementById("welcome").style.display = "none";
+            document.getElementById("lightSimulator").style.display = "none";
+            document.getElementById("fanSimulator").style.display = "none";
+            document.getElementById("thermostatSimulator").style.display = "none";
+            document.getElementById(sectionId).style.display = "block";
+        } 
+
+        function controlLight(action) {
+
+            const lightBulb = document.getElementById("lightBulb");
+            if (action === "on") {
+                lightBulb.src = "bulb_on.png"; 
+                document.getElementById("lightStatus").textContent = "Light is now ON";
+            } else {
+                lightBulb.src = "bulb_off.png"; 
+                document.getElementById("lightStatus").textContent = "Light is now OFF";
+            }
+
+        }
+
+
+        function controlFanSpeed(speed) {
+
+            const fanBlade = document.getElementById("fanBlade");
+            fanBlade.classList.remove("speed-1", "speed-2", "speed-3", "stopped");
+            
+            if (speed === 1) {
+                fanBlade.classList.add("speed-1");
+                document.getElementById("fanStatus").textContent = "Fan is now ON at Speed 1";
+            } else if (speed === 2) {
+                fanBlade.classList.add("speed-2");
+                document.getElementById("fanStatus").textContent = "Fan is now ON at Speed 2";
+            } else if (speed === 3) {
+                fanBlade.classList.add("speed-3");
+                document.getElementById("fanStatus").textContent = "Fan is now ON at Speed 3";
+            } else {
+                fanBlade.classList.add("stopped");
+                document.getElementById("fanStatus").textContent = "Fan is now OFF";
+            }
+        }
+
+
+        let thermostatOn = false; // Track thermostat state
+        let currentTemperature = 25; // Default temperature
+
+        function toggleThermostat() {
+
+            thermostatOn = !thermostatOn; 
+            if (thermostatOn) {
+                document.getElementById("thermostatStatus").textContent = `Current Temperature: ${currentTemperature}°C`;
+            } else {
+                document.getElementById("thermostatStatus").textContent = "Thermostat is OFF";
+            }
+
+        }
+
+        function changeTemperature(change) {
+
+            if (!thermostatOn) return; 
+            currentTemperature += change; 
+            if (currentTemperature < 16) currentTemperature = 16; 
+            if (currentTemperature > 30) currentTemperature = 30; 
+            document.getElementById("thermostatStatus").textContent = `Current Temperature: ${currentTemperature}°C`;
+
+        }
+
+        function resetAll() {
+
+            const lightBulb = document.getElementById("lightBulb");
+            lightBulb.src = "bulb_off.png"; 
+            document.getElementById("lightStatus").textContent = "";
+
+            const fanBlade = document.getElementById("fanBlade");
+            fanBlade.classList.remove("speed-1", "speed-2", "speed-3", "stopped");
+            document.getElementById("fanStatus").textContent = "";
+
+            thermostatOn = false; 
+            currentTemperature = 25; 
+            document.getElementById("thermostatStatus").textContent = "Thermostat is OFF";
+                
+            showSection('welcome');
+        
+        }
+
+    </script>
+</body>
+</html>
