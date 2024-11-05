@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-----------------------------------HEAD----------------------------------->
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+        <link rel="icon" href="logo.png" type="image/icon type">
+
+        <link rel="stylesheet" href ="CSS_home_appliance_simulator.css">
+
+        <title>Home Appliance Simulator</title>
+
+    </head>
+
+
+
+
+    <!-----------------------------------BODY----------------------------------->
+    <body>
+
+        <header>
+            <img src="logo.png" alt="Logo" class="logo">
+            <button class="nav-button" onclick="showSection('lightSimulator')">Light Simulator</button>
+            <button class="nav-button" onclick="showSection('fanSimulator')">Fan Simulator</button>
+            <button class="nav-button" onclick="showSection('thermostatSimulator')">Thermostat Simulator</button>
+    
+            <button class="reset-button"  title="Reset" onclick="resetAll()">↻</button>
+        </header>
+
+        <div id="welcome">
+            <br><br><br><br><br><br><br><br><br><br>
+            <h1>Welcome to Home Appliance Simulator</h1>
+            <p>Click a button above to start controlling your smart devices.</p>
+        </div>
+
+        
+        <div id="lightSimulator">
+            <h1>Light Control</h1>
+
+            <div class="light-container">
+                <img id="lightBulb" src="bulb_off.png" alt="Light Bulb" width="300">
+            </div>
+
+            <br><br>
+            <div class="button-container">
+            <button  class="on-button" onclick="controlLight('on')">On</button>
+            <button  class="off-button" onclick="controlLight('off')">Off</button>
+            </div>
+            <p id="lightStatus" class="status-text"></p>
+        </div>
+
+        
+        <div id="fanSimulator">
+            <h1>Fan Control</h1>
+
+            <div class="fan-container">
+                <img id="fanBlade" src="fan_blade.png" alt="Fan Blade">
+                <img id="fanCase" src="fan_case.png" alt="Fan Case">
+            </div>
+
+        
+            <div class="button-container">
+            <button class="on-button" onclick="controlFanSpeed(1)"> 1 </button>
+            <button class="on-button" onclick="controlFanSpeed(2)"> 2 </button>
+            <button class="on-button" onclick="controlFanSpeed(3)"> 3 </button>
+            <button class="off-button" onclick="controlFanSpeed(0)">Off</button>
+            </div>
+            <p id="fanStatus" class="status-text"></p>
+        </div>
+        
+
+        <div id="thermostatSimulator">
+            <h1>Thermostat Control</h1>
+
+        <div class="thermostat-container">
+                <img id="thermostat" src="thermostat.png" alt="Thermostat" width="360">
+                <div class="thermostat-text" id="thermostatStatus">Thermostat is OFF</div>
+            </div>
+
+            <div class="button-container">
+            <button class="on-button"onclick="changeTemperature(-1)">▲</button>
+            <button class="on-button"onclick="changeTemperature(1)">▼</button>
+            <button class="thermostat-button"onclick="toggleThermostat()">On/Off</button>
+            </div>
+        </div>
+
+
+
+
+
+    <!-----------------------------------JAVASCRIPT--------------------------------->   
+
+    <script src = "JS_home_appliance_simulator.js"></script>
+
+    </body>
+</html>
